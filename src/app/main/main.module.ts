@@ -13,11 +13,14 @@ import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../pipes/search.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { PlaylistComponent } from './playlist/playlist.component';
 
 @NgModule({
   declarations: [
     MainComponent,
-    SearchPipe
+    SearchPipe,
+    PlaylistComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +34,8 @@ import { MatIconModule } from '@angular/material/icon';
     ScrollingModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   exports: [
     MainComponent

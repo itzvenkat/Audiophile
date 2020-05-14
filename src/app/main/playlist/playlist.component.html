@@ -1,0 +1,68 @@
+<div mat-subheader class="search">
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Search Playlists...</mat-label>
+        <input matInput type="text" pmaxlength="25" placeholder="Ex. Alan Walker Hits" name="search"
+            [(ngModel)]="searchText">
+        <button mat-button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="searchText=''">
+            <mat-icon>backspace</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+<mat-divider></mat-divider>
+<mat-list>
+    <div class="overlay" *ngIf="playlists === undefined || songs === []">
+        <div class="center">
+            <mat-progress-spinner *ngIf="playlists === undefined || songs === []" diameter=50 mode="indeterminate"
+                color="accent">
+            </mat-progress-spinner>
+        </div>
+    </div>
+    <span *ngIf="playlists && playlists?.length > 0" class="d-flex justify-content-center">
+        <mat-accordion class="w-100">
+            <mat-expansion-panel *ngFor="let play of playlists; let i = index">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{play.title}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{play.createdOn | date}}
+                        <mat-icon mat-list-icon (click)="deletePlaylist(play.id); $event.stopPropagation()">delete
+                        </mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <button mat-raised-button color="primary">Shuffle Play</button>
+                <button mat-raised-button color="accent">Add Songs</button>
+                <span *ngIf="play?.songs && play?.songs.length > 0">
+                    <mat-list>
+                        <div mat-subheader>Songs</div>
+                        <mat-list-item *ngFor="let song of play.songs; let s = index">
+                            <mat-icon mat-list-icon>folder</mat-icon>
+                            <div mat-line>{{song?.songName}}</div>
+                            <mat-icon mat-list-icon class="pull-right">delete</mat-icon>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </mat-list>
+                </span>
+                <!-- <mat-form-field>
+                    <mat-label>First name</mat-label>
+                    <input matInput>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Age</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field> -->
+            </mat-expansion-panel>
+        </mat-accordion>
+        <!-- <cdk-virtual-scroll-viewport class="list-container list-group" [itemSize]="10">
+            <div *cdkVirtualFor="let song of (songs | filter:searchText); let i = index; trackBy:trackBySongsFn"
+                class="list-group-item" [style.height.px]="padding">
+                <p align="end">Play</p>
+                <img src={{song.thumbnailUrl}} width="20" height="20" name="url">
+                <div mat-line>Title: {{song.songName}}</div>
+                <div mat-line>Album: {{song.albumName}} </div>
+            </div>
+        </cdk-virtual-scroll-viewport> -->
+    </span>
+</mat-list>

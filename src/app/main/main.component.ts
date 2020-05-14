@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectionStrateg
 import { MusicService } from '../services/music.service';
 import { Albums, Photos, Music } from './main.model';
 import { Subscription, forkJoin } from 'rxjs';
+import { StoreService } from '../services/store.service';
 
 @Component({
   selector: 'app-main',
@@ -13,17 +14,26 @@ import { Subscription, forkJoin } from 'rxjs';
 })
 export class MainComponent implements OnInit, OnDestroy {
   songs: Music[] = [];
-  search: string = "";
   albums: Albums[];
-  albums$: Subscription;
   photos: Photos[];
-  photos$: Subscription;
   searchText: string = "";
+  padding: number = 120;
 
-  constructor(private musicService: MusicService, private changeDetectionRef: ChangeDetectorRef) { }
+  albums$: Subscription;
+  photos$: Subscription;
+  store$: Subscription;
+
+  constructor(
+    private storeService: StoreService,
+    private musicService: MusicService,
+    private changeDetectionRef: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.setValues();
+    this.store$ = this.storeService._isMobileView.subscribe((_isMobileView: boolean) => {
+      this.padding = (_isMobileView) ? 150 : 120;
+    });
   }
 
   setValues() {
@@ -73,6 +83,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.albums$?.unsubscribe();
     this.photos$?.unsubscribe();
+    this.store$?.unsubscribe();
   }
 
 }

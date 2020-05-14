@@ -16,15 +16,18 @@
     "@angular/common": "~9.1.6",
     "@angular/compiler": "~9.1.6",
     "@angular/core": "~9.1.6",
+    "@angular/fire": "^6.0.0",
     "@angular/forms": "~9.1.6",
     "@angular/material": "^9.2.3",
     "@angular/platform-browser": "~9.1.6",
     "@angular/platform-browser-dynamic": "~9.1.6",
     "@angular/router": "~9.1.6",
     "bootstrap": "^4.5.0",
+    "firebase": "^7.14.3",
     "jquery": "^3.5.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "uuid": "^8.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
