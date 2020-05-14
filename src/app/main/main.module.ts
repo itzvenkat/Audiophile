@@ -11,6 +11,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../pipes/search.pipe';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SearchPipe } from '../pipes/search.pipe';
     MatFormFieldModule,
     MatInputModule,
     ScrollingModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatButtonModule
   ],
   exports: [
     MainComponent

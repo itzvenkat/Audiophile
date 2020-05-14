@@ -13,6 +13,6 @@ export class APP {
     public static githubUrl = `https://github.com/itzvenkat/Audiophile`;
     public static myProfileLoc = `../assets/media/man.png`;
     public static resumeLoc = `../assets/media/download.png`;
-    public static resumeUrl = ``;
+    public static resumeUrl = `https://mega.nz/file/hRUTyIba#Akb6Gd2YZhPYsKFHG3rJel3QFEe61ukN4Y8DXTIUXfs`;
     public static contactLoc = `../assets/media/contact.png`;
 }

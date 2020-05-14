@@ -2,8 +2,6 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectionStrateg
 import { MusicService } from '../services/music.service';
 import { Albums, Photos, Music } from './main.model';
 import { Subscription, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-main',
@@ -11,7 +9,7 @@ import { stringify } from 'querystring';
   styleUrls: ['./main.component.scss'],
   host: { style: 'width:100%; height:100%; display:flex; justify-content:center' },
   encapsulation: ViewEncapsulation.None,
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainComponent implements OnInit, OnDestroy {
   songs: Music[] = [];
@@ -32,13 +30,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.albums$ = this.musicService.getAlbums().subscribe((data) => {
       this.albums = data;
     }, (error) => {
-
+      console.error(error);
     }, () => {
       this.photos$ = this.musicService.getPhotos().subscribe((data) => {
         this.photos = data;
         this.setSongsInfo(this.albums, this.photos);
       }, (error) => {
-
+        console.error(error);
       }, () => {
 
       });
