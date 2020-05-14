@@ -1,0 +1,70 @@
+<mat-tab-group color="accent">
+    <mat-tab label="All Songs">
+        <ng-template matTabContent>
+            <div mat-subheader class="search">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Search for songs...</mat-label>
+                    <input matInput #input maxlength="25" placeholder="Ex. Stairway to heaven" name="search"
+                        [(ngModel)]="searchText">
+                    <!-- <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint> -->
+                </mat-form-field>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-list>
+                <!-- <div mat-subheader>Songs</div> -->
+                <div class="overlay" *ngIf="songs === undefined || songs === []">
+                    <div class="center">
+                        <mat-progress-spinner *ngIf="songs === undefined || songs === []" diameter=50
+                            mode="indeterminate" color="accent">
+                        </mat-progress-spinner>
+                    </div>
+                </div>
+                <span *ngIf="songs && songs?.length > 0" class="d-flex justify-content-center">
+                    <cdk-virtual-scroll-viewport class="list-container list-group" [itemSize]="10">
+                        <div *cdkVirtualFor="let song of (songs | filter:searchText); let i = index; trackBy:trackBySongsFn"
+                            class="list-group-item" [style.height.px]="100">
+                            <p align="end">Play</p>
+                            <img src={{song.thumbnailUrl}} width="20" height="20" name="url">
+                            <div mat-line>Title: {{song.songName}}</div>
+                            <div mat-line>Album: {{song.albumName}} </div>
+                        </div>
+                    </cdk-virtual-scroll-viewport>
+                </span>
+            </mat-list>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Playlist">
+        <ng-template matTabContent>
+
+            <!-- <cdk-virtual-scroll-viewport class="example-viewport" itemSize="2">
+                <dl class="example-dl">
+                    <ng-container *cdkVirtualFor="let state of states">
+                        <dt class="example-dt">{{state.name}}</dt>
+                        <dd class="example-dd">{{state.capital}}</dd>
+                    </ng-container>
+                </dl>
+            </cdk-virtual-scroll-viewport> -->
+            <!-- <mat-list>
+                <div mat-subheader>Folders</div>
+                <mat-list-item *ngFor="let folder of folders">
+                    <mat-icon mat-list-icon>folder</mat-icon>
+                    <div mat-line>{{folder.name}}</div>
+                    <div mat-line> {{folder.updated | date}} </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <div mat-subheader>Notes</div>
+                <mat-list-item *ngFor="let note of notes">
+                    <mat-icon mat-list-icon>note</mat-icon>
+                    <div mat-line>{{note.name}}</div>
+                    <div mat-line> {{note.updated | date}} </div>
+                </mat-list-item>
+            </mat-list> -->
+        </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="Third">
+        <ng-template matTabContent>
+            Content 3 - Loaded: {{getTimeLoaded(3) | date:'medium'}}
+            Content 1 - Loaded: {{getTimeLoaded(1) | date:'medium'}}
+        </ng-template>
+    </mat-tab> -->
+</mat-tab-group>

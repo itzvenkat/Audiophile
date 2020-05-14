@@ -1,0 +1,102 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+$navbar-brand-padding-y:3px;
+
+$thor: #2a3f54;
+$stark: #2a3f54;
+$steve: #e7e7e7;
+$bruce:#d3d6d9;
+
+$spacers: map-merge((6: ($spacer * 2.3),
+    7: ($spacer * 4),
+    8: ($spacer * 5),
+  ),
+  $spacers);
+
+$font-size-sm:14px;
+
+$theme-colors: map-merge(("thor": $thor,
+    "stark": $stark,
+    "steve": $steve,
+    "bruce": $bruce,
+  ),
+  $theme-colors);
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootstrap/scss/bootstrap-grid.scss";
+
+// html,
+// body {
+//   height: 100%;
+//   margin: 0;
+//   padding: 0;
+// }
+
+// :host {
+//   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+//   font-size: 14px;
+//   color: #333;
+//   box-sizing: border-box;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
+
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   margin: 8px 0;
+// }
+
+// p {
+//   margin: 0;
+// }
+
+// .spacer {
+//   flex: 1;
+// }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+main {
+  height: calc(100% - 64px - 56px);
+  position: fixed;
+  top: 64px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: $thor;
+}
+
+// mat-tab-header {
+//   top: 70px;
+// }
