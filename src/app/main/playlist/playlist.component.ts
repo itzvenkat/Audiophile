@@ -82,7 +82,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     console.log(id);
     this.firebaseService.deletePlaylist(id);
     console.log(`Deleted Successfully`);
-    this._snackBar.open(`Deleted Successfully`, `DELETE..`, {
+    this._snackBar.open(`Deleted Successfully`, `DELETE`, {
       duration: 2000,
       verticalPosition: 'top'
     });
