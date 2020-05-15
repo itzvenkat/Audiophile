@@ -73,6 +73,7 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     });
     this.songs = merged;
+    this.changeDetectionRef.detectChanges();
     console.log(this.songs);
   }
 

@@ -124,6 +124,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
         duration: 2000,
         verticalPosition: 'top'
       });
+      this.changeDetectionRef.detectChanges();
     });
   }
 
@@ -156,8 +157,8 @@ export class PlaylistComponent implements OnInit, OnDestroy {
         duration: 2000,
         verticalPosition: 'top'
       });
+      this.changeDetectionRef.detectChanges();
     });
-
   }
 
   trackBySongsFn(idx, data) {
