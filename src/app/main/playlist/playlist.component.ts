@@ -69,10 +69,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       this.firebaseService.createPlaylist(this.playlistGroup.value).then(() => {
         this.modalRef.hide();
         this.playlistGroup = undefined;
-        this._snackBar.open(`New Playlist added`, `NEW`, {
-          duration: 2000,
-          verticalPosition: 'top'
-        });
+        this._snackBar.open(`New Playlist added`, `NEW`);
         this.changeDetectionRef.detectChanges();
       })
     }
@@ -80,13 +77,14 @@ export class PlaylistComponent implements OnInit, OnDestroy {
 
   deletePlaylist(id: string) {
     console.log(id);
-    this.firebaseService.deletePlaylist(id);
-    console.log(`Deleted Successfully`);
-    this._snackBar.open(`Deleted Successfully`, `DELETE`, {
-      duration: 2000,
-      verticalPosition: 'top'
+    this.firebaseService.deletePlaylist(id).then(() => {
+      console.log(`Deleted Successfully`);
+      this._snackBar.open(`Deleted Successfully`, `SUCCESS`);
+      this.changeDetectionRef.detectChanges();
+    }).catch((error) => {
+      console.log(error);
+      this._snackBar.open(`SOMETHING WENT WRONG`, `FAILURE`);
     });
-    this.changeDetectionRef.detectChanges();
   }
 
   openAddSongs(template: TemplateRef<any>, id) {
@@ -120,10 +118,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     const data = JSON.parse(JSON.stringify(this.playlists[this.openAddSongsIdx]));
     data.songs = JSON.stringify(songsData);
     this.firebaseService.updatePlaylist(data).then(() => {
-      this._snackBar.open(`New Songs added`, `NEW`, {
-        duration: 2000,
-        verticalPosition: 'top'
-      });
+      this._snackBar.open(`New Songs added`, `NEW`);
       this.changeDetectionRef.detectChanges();
     });
   }
@@ -132,15 +127,9 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     if (songs && songs?.length > 0) {
       var randomnumber = this.randomIntFromInterval(0, songs.length - 1);
       let message = `Now Playing: ${songs[randomnumber]?.songName}`;
-      this._snackBar.open(message, `Playing..`, {
-        duration: 2000,
-        verticalPosition: 'top'
-      });
+      this._snackBar.open(message, `Playing..`);
     } else {
-      this._snackBar.open(`Unable to play`, `Error`, {
-        duration: 2000,
-        verticalPosition: 'top'
-      });
+      this._snackBar.open(`Unable to play`, `Error`);
     }
   }
 
@@ -153,10 +142,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     const data = JSON.parse(JSON.stringify(this.playlists[i]));
     data.songs = JSON.stringify(data.songs);
     this.firebaseService.updatePlaylist(data).then(() => {
-      this._snackBar.open(`Deleted song from playlist`, `DELETE`, {
-        duration: 2000,
-        verticalPosition: 'top'
-      });
+      this._snackBar.open(`Deleted song from playlist`, `DELETE`);
       this.changeDetectionRef.detectChanges();
     });
   }
@@ -167,6 +153,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.playlists$?.unsubscribe();
+    this.changeDetectionRef?.detach();
   }
 
 }

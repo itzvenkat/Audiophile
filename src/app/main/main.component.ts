@@ -85,6 +85,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.albums$?.unsubscribe();
     this.photos$?.unsubscribe();
     this.store$?.unsubscribe();
+    this.changeDetectionRef?.detach();
   }
 
 }
