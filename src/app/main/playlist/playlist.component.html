@@ -1,5 +1,5 @@
 <div mat-subheader class="search">
-    <mat-form-field appearance="fill" class="w-100">
+    <mat-form-field appearance="fill" class="w-75">
         <mat-label>Search Playlists...</mat-label>
         <input matInput type="text" pmaxlength="25" placeholder="Ex. Alan Walker Hits" name="search"
             [(ngModel)]="searchText">
@@ -7,6 +7,9 @@
             <mat-icon>backspace</mat-icon>
         </button>
     </mat-form-field>
+    <button mat-raised-button color="primary" style="float: right;margin-left: 25px;"
+        (click)="openCreatePlaylist(createPlaylistModal)">Create
+        Playlist</button>
 </div>
 <mat-divider></mat-divider>
 <mat-list>
@@ -31,38 +34,94 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <button mat-raised-button color="primary">Shuffle Play</button>
-                <button mat-raised-button color="accent">Add Songs</button>
+                <span class="pull-right">
+                    <button mat-raised-button color="primary" class="px-2" style="float: right;"
+                        (click)="shufflePlay(play.songs)">Shuffle
+                        Play</button>
+                    <button mat-raised-button color="accent" class="px-2" style="float: right; margin-right: 10px"
+                        (click)="openAddSongs(songsPlaylistModal,i)">Add Songs</button>
+                </span>
                 <span *ngIf="play?.songs && play?.songs.length > 0">
                     <mat-list>
                         <div mat-subheader>Songs</div>
                         <mat-list-item *ngFor="let song of play.songs; let s = index">
-                            <mat-icon mat-list-icon>folder</mat-icon>
+                            <mat-icon mat-list-icon>audiotrack</mat-icon>
                             <div mat-line>{{song?.songName}}</div>
-                            <mat-icon mat-list-icon class="pull-right">delete</mat-icon>
+                            <mat-icon mat-list-icon class="pull-right" style="cursor: pointer;"
+                                (click)="deleteSong(song,i,s)">delete</mat-icon>
                         </mat-list-item>
                         <mat-divider></mat-divider>
                     </mat-list>
                 </span>
-                <!-- <mat-form-field>
-                    <mat-label>First name</mat-label>
-                    <input matInput>
-                </mat-form-field>
-
-                <mat-form-field>
-                    <mat-label>Age</mat-label>
-                    <input matInput type="number" min="1">
-                </mat-form-field> -->
             </mat-expansion-panel>
         </mat-accordion>
-        <!-- <cdk-virtual-scroll-viewport class="list-container list-group" [itemSize]="10">
-            <div *cdkVirtualFor="let song of (songs | filter:searchText); let i = index; trackBy:trackBySongsFn"
-                class="list-group-item" [style.height.px]="padding">
-                <p align="end">Play</p>
-                <img src={{song.thumbnailUrl}} width="20" height="20" name="url">
-                <div mat-line>Title: {{song.songName}}</div>
-                <div mat-line>Album: {{song.albumName}} </div>
-            </div>
-        </cdk-virtual-scroll-viewport> -->
     </span>
 </mat-list>
+
+<ng-template #createPlaylistModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Create Playlist</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <span *ngIf="playlistGroup">
+            <form [formGroup]="playlistGroup" (ngSubmit)="createPlaylist()">
+                <mat-form-field appearance="fill" class="w-75">
+                    <mat-label>Title</mat-label>
+                    <input matInput type="text" pmaxlength="25" placeholder="Ex. Alan Walker Hits" name="title"
+                        formControlName="title" autofocus="on">
+                </mat-form-field>
+                <button mat-raised-button color="primary" style="float: right;margin-left: 25px;">Save</button>
+            </form>
+        </span>
+    </div>
+</ng-template>
+
+
+
+<ng-template #songsPlaylistModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add songs</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="songsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <ng-container>
+            <div class="search">
+                <mat-form-field appearance="fill" class="w-75">
+                    <mat-label>Search for songs...</mat-label>
+                    <input matInput type="text" pmaxlength="25" placeholder="Ex. Stairway to heaven" name="search"
+                        [(ngModel)]="songsText">
+                    <button mat-button *ngIf="songsText" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="songsText=''">
+                        <mat-icon>backspace</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-list>
+                <div class="overlay" *ngIf="songs === undefined || songs === []">
+                    <div class="center">
+                        <mat-progress-spinner *ngIf="songs === undefined || songs === []" diameter=50
+                            mode="indeterminate" color="accent">
+                        </mat-progress-spinner>
+                    </div>
+                </div>
+                <span *ngIf="songs && songs?.length > 0" class="d-flex justify-content-center">
+                    <cdk-virtual-scroll-viewport class="list-container list-group" [itemSize]="10">
+                        <div *cdkVirtualFor="let song of (songs | filter:songsText); let i = index; trackBy:trackBySongsFn"
+                            class="list-group-item" [style.height.px]="25">
+                            <mat-checkbox (change)="selectedSongs(song,i,$event.checked)">{{song.songName}}
+                            </mat-checkbox>
+                        </div>
+                    </cdk-virtual-scroll-viewport>
+                    <button mat-raised-button color="primary" style="float: right;margin-left: 25px;"
+                        (click)="addSongs()">Add</button>
+                </span>
+            </mat-list>
+        </ng-container>
+    </div>
+</ng-template>

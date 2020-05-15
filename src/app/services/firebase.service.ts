@@ -10,11 +10,13 @@ export class FirebaseService {
 
   constructor(public db: AngularFirestore) { }
 
-  createPlaylist(name, songs) {
-    return this.db.collection(this.collection).add({
-      id: uuid(),
-      name,
-      songs
+  createPlaylist(form) {
+    let id = uuid.v4();
+    return this.db.collection(this.collection).doc(id).set({
+      id,
+      title: form.title,
+      songs: form.songs,
+      createdOn: new Date().toDateString()
     });
   }
 
@@ -22,9 +24,11 @@ export class FirebaseService {
     return this.db.collection(this.collection).valueChanges();
   }
 
-  deletePlaylists(id: string) {
-    console.log(this.db.collection(this.collection).doc(id));
+  updatePlaylist(data) {
+    return this.db.collection(this.collection).doc(data.id).set(data, { merge: true });
+  }
 
+  deletePlaylist(id) {
     return this.db.collection(this.collection).doc(id).delete();
   }
 }
