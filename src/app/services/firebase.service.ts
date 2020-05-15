@@ -16,7 +16,7 @@ export class FirebaseService {
       id,
       title: form.title,
       songs: form.songs,
-      createdOn: new Date().toDateString()
+      createdOn: new Date().toString()
     });
   }
 

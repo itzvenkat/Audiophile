@@ -25,6 +25,8 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   playlistGroup: FormGroup;
   selectedSongsSet = new Set();
   openAddSongsIdx;
+  randomNumber;
+  newRandomNumber;
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +52,11 @@ export class PlaylistComponent implements OnInit, OnDestroy {
         }
       });
       this.playlists = data;
+      try {
+        this.playlists?.sort((a, b) => Date.parse(b.createdOn) - Date.parse(a.createdOn));
+      } catch (error) {
+        console.log(`Unable to Sort.`, error);
+      }
     });
   }
 
@@ -76,7 +83,6 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   }
 
   deletePlaylist(id: string) {
-    console.log(id);
     this.firebaseService.deletePlaylist(id).then(() => {
       console.log(`Deleted Successfully`);
       this._snackBar.open(`Deleted Successfully`, `SUCCESS`);
@@ -123,13 +129,23 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     });
   }
 
-  shufflePlay(songs) {
+  shufflePlay(songs, i) {
     if (songs && songs?.length > 0) {
-      var randomnumber = this.randomIntFromInterval(0, songs.length - 1);
-      let message = `Now Playing: ${songs[randomnumber]?.songName}`;
-      this._snackBar.open(message, `Playing..`);
+      this.shuffle(this.playlists[i].songs);
+      let message = `Song: ${this.playlists[i].songs[0]?.songName}`;
+      this._snackBar.open(message, `Now Playing`);
     } else {
       this._snackBar.open(`Unable to play`, `Error`);
+    }
+  }
+
+  shuffle(array) {
+    var i = array.length, k, temp;
+    while (--i > 0) {
+      k = Math.floor(Math.random() * (i + 1));
+      temp = array[k];
+      array[k] = array[i];
+      array[i] = temp;
     }
   }
 
